@@ -8,6 +8,7 @@ import com.example.consultorioMedico.model.entity.Endereco;
 import com.example.consultorioMedico.model.entity.Medico;
 import com.example.consultorioMedico.model.entity.Paciente;
 import com.example.consultorioMedico.model.entity.Secretaria;
+import com.example.consultorioMedico.service.EnderecoService;
 import com.example.consultorioMedico.service.SecretariaService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class SecretariaController {
 
     private final SecretariaService service;
+    private final EnderecoService enderecoService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -46,6 +48,8 @@ public class SecretariaController {
     public ResponseEntity post(@RequestBody SecretariaDTO dto) {
         try {
             Secretaria secretaria = converter(dto);
+            Endereco endereco = enderecoService.salvar(secretaria.getEndereco());
+            secretaria.setEndereco(endereco);
             secretaria = service.salvar(secretaria);
             return new ResponseEntity(secretaria, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
@@ -60,6 +64,8 @@ public class SecretariaController {
         }
         try {
             Secretaria secretaria = converter(dto);
+            Endereco endereco = enderecoService.salvar(secretaria.getEndereco());
+            secretaria.setEndereco(endereco);
             secretaria.setId(id);
             service.salvar(secretaria);
             return ResponseEntity.ok(secretaria);

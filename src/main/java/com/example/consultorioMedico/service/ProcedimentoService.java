@@ -1,6 +1,7 @@
 package com.example.consultorioMedico.service;
 
 import com.example.consultorioMedico.exception.RegraNegocioException;
+import com.example.consultorioMedico.model.entity.Paciente;
 import com.example.consultorioMedico.model.entity.Procedimento;
 import com.example.consultorioMedico.model.repository.ProcedimentoRepository;
 import org.springframework.stereotype.Service;
@@ -41,9 +42,10 @@ public class ProcedimentoService {
     }
 
     public void validar(Procedimento procedimento) {
-        if (procedimento.getNome() == null) {
+        if (procedimento.getNome() == null || procedimento.getNome().trim().equals("")) {
             throw new RegraNegocioException("Nome inválido");
         }
     }
+
 
 }

@@ -52,6 +52,9 @@ public class ConsultaService {
         if (consulta.getMedico() == null ) {
             throw new RegraNegocioException("Medico inválido");
         }
+        if (consulta.getProcedimento() == null ) {
+            throw new RegraNegocioException("Procedimento inválido");
+        }
     }
 
 }

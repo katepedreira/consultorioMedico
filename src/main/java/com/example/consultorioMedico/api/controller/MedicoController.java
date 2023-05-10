@@ -3,6 +3,7 @@ package com.example.consultorioMedico.api.controller;
 import com.example.consultorioMedico.api.dto.MedicoDTO;
 import com.example.consultorioMedico.model.entity.Endereco;
 import com.example.consultorioMedico.model.entity.Medico;
+import com.example.consultorioMedico.service.EnderecoService;
 import com.example.consultorioMedico.service.MedicoService;
 import com.example.consultorioMedico.exception.RegraNegocioException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class MedicoController {
 
     private final MedicoService service;
+    private final EnderecoService enderecoService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -41,6 +43,8 @@ public class MedicoController {
     public ResponseEntity post(@RequestBody MedicoDTO dto) {
         try {
             Medico medico = converter(dto);
+            Endereco endereco = enderecoService.salvar(medico.getEndereco());
+            medico.setEndereco(endereco);
             medico = service.salvar(medico);
             return new ResponseEntity(medico, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
@@ -55,6 +59,8 @@ public class MedicoController {
         }
         try {
             Medico medico = converter(dto);
+            Endereco endereco = enderecoService.salvar(medico.getEndereco());
+            medico.setEndereco(endereco);
             service.salvar(medico);
             return ResponseEntity.ok(medico);
         } catch (RegraNegocioException e) {
@@ -85,3 +91,4 @@ public class MedicoController {
         return medico;
     }
 }
+

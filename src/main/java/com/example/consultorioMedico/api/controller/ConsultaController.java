@@ -3,11 +3,11 @@ package com.example.consultorioMedico.api.controller;
 import com.example.consultorioMedico.api.dto.ConsultaDTO;
 import com.example.consultorioMedico.api.dto.MedicoDTO;
 import com.example.consultorioMedico.exception.RegraNegocioException;
-import com.example.consultorioMedico.model.entity.Consulta;
-import com.example.consultorioMedico.model.entity.Endereco;
-import com.example.consultorioMedico.model.entity.Medico;
-import com.example.consultorioMedico.model.entity.Paciente;
+import com.example.consultorioMedico.model.entity.*;
 import com.example.consultorioMedico.service.ConsultaService;
+import com.example.consultorioMedico.service.MedicoService;
+import com.example.consultorioMedico.service.PacienteService;
+import com.example.consultorioMedico.service.ProcedimentoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -25,6 +25,10 @@ import java.util.stream.Collectors;
 public class ConsultaController {
 
     private final ConsultaService service;
+    private final MedicoService medicoService;
+    private final PacienteService pacienteService;
+    private final ProcedimentoService procedimentoService;
+
 
     @GetMapping()
     public ResponseEntity get() {
@@ -44,7 +48,13 @@ public class ConsultaController {
     @PostMapping()
     public ResponseEntity post(@RequestBody ConsultaDTO dto) {
         try {
-            Consulta consulta= converter(dto);
+            Consulta consulta = converter(dto);
+            //Medico medico = medicoService.salvar(consulta.getMedico());
+            //consulta.setMedico(medico);
+            //Paciente paciente = pacienteService.salvar(consulta.getPaciente());
+            //consulta.setPaciente(paciente);
+            //Procedimento procedimento = procedimentoService.salvar(consulta.getProcedimento());
+            //consulta.setProcedimento(procedimento);
             consulta = service.salvar(consulta);
             return new ResponseEntity(consulta, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
@@ -60,6 +70,12 @@ public class ConsultaController {
         try {
             Consulta consulta = converter(dto);
             consulta.setId(id);
+            //Medico medico = medicoService.salvar(consulta.getMedico());
+            //consulta.setMedico(medico);
+            //Paciente paciente = pacienteService.salvar(consulta.getPaciente());
+            //consulta.setPaciente(paciente);
+            //Procedimento procedimento = procedimentoService.salvar(consulta.getProcedimento());
+            //consulta.setProcedimento(procedimento);
             service.salvar(consulta);
             return ResponseEntity.ok(consulta);
         } catch (RegraNegocioException e) {
@@ -84,10 +100,30 @@ public class ConsultaController {
     public Consulta converter(ConsultaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Consulta consulta = modelMapper.map(dto, Consulta.class);
-        Medico medico = modelMapper.map(dto, Medico.class);
-        Paciente paciente = modelMapper.map(dto, Paciente.class);
-        consulta.setMedico(medico);
-        consulta.setPaciente(paciente);
+        if (dto.getIdMedico() != null) {
+            Optional<Medico> medico = medicoService.getMedicoById(dto.getIdMedico());
+            if (!medico.isPresent()) {
+                consulta.setMedico(null);
+            } else {
+                consulta.setMedico(medico.get());
+            }
+        }
+        if (dto.getIdPaciente() != null) {
+            Optional<Paciente> paciente = pacienteService.getPacienteById(dto.getIdPaciente());
+            if (!paciente.isPresent()) {
+                consulta.setPaciente(null);
+            } else {
+                consulta.setPaciente(paciente.get());
+            }
+        }
+        if (dto.getIdProcedimento() != null) {
+            Optional<Procedimento> procedimento = procedimentoService.getProcedimentoById(dto.getIdProcedimento());
+            if (!procedimento.isPresent()) {
+                consulta.setProcedimento(null);
+            } else {
+                consulta.setProcedimento(procedimento.get());
+            }
+        }
 
         return consulta;
     }
