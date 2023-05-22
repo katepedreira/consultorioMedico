@@ -16,6 +16,7 @@ public class PacienteDTO {
 
     private Long id;
     private String nome;
+    private String cpf;
     private Date dataNascimento;
     private String convenio;
     private String logradouro;

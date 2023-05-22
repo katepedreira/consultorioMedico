@@ -16,6 +16,7 @@ public class SecretariaDTO {
 
     private Long id;
     private String nome;
+    private String cpf;
     private Date dataNascimento;
     private String logradouro;
     private Integer numero;

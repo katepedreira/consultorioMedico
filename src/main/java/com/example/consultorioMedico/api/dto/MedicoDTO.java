@@ -17,8 +17,8 @@ public class MedicoDTO {
     private String crm;
     private Long id;
     private String nome;
+    private String cpf;
     private Date dataNascimento;
-    private String convenio;
     private String logradouro;
     private Integer numero;
     private String complemento;
