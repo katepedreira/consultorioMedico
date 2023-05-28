@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/medicos")
 @RequiredArgsConstructor
+@CrossOrigin
 public class MedicoController {
 
     private final MedicoService service;

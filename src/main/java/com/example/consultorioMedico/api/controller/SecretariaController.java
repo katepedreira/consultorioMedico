@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/secretarias")
 @RequiredArgsConstructor
+@CrossOrigin
 
 public class SecretariaController {
 
