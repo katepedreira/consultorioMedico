@@ -21,7 +21,7 @@ public abstract class Pessoa {
     private String cpf;
     private Date dataNascimento;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Endereco endereco;
 
 

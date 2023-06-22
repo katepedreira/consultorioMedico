@@ -18,7 +18,7 @@ public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date data;
+    private Date dataConsulta;
     @ManyToOne
     private Paciente paciente;
     @ManyToOne

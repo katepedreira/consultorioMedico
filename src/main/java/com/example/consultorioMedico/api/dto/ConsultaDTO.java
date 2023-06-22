@@ -18,22 +18,23 @@ import java.util.List;
 
 public class ConsultaDTO {
     private Long id;
-    private Date data;
+    private Date dataConsulta;
     private Long idPaciente;
     private Long idMedico;
     private Long idProcedimento;
     private String nomeMedico;
-    //private String crmMedico;
     private String nomePaciente;
-    //private String convenioPaciente;
     private String nomeProcedimento;
 
     public static ConsultaDTO create(Consulta consulta) {
         ModelMapper modelMapper = new ModelMapper();
         ConsultaDTO dto = modelMapper.map(consulta, ConsultaDTO.class);
         dto.nomeMedico = consulta.getMedico().getNome();
+        dto.idMedico = consulta.getMedico().getId();
         dto.nomePaciente = consulta.getPaciente().getNome();
+        dto.idPaciente = consulta.getPaciente().getId();
         dto.nomeProcedimento = consulta.getProcedimento().getNome();
+        dto.idProcedimento = consulta.getProcedimento().getId();
         return dto;
     }
 
